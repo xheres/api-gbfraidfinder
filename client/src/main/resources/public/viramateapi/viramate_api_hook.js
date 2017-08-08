@@ -60,7 +60,7 @@ function onApiLoaded()
     console.log("API Loaded");
     alert("API Loaded");
 
-    document.title = '(API)Granblue Raid Finder';
+    document.title = '(API)Time to fail Baha HL';
 }
 
 function onMessage (evt)
