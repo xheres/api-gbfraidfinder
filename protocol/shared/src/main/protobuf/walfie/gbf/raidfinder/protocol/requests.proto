@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package walfie.gbf.raidfinder.protocol;
+
+import "scalapb/scalapb.proto";
+
+option (scalapb.options) = {
+  preamble: "sealed trait Request"
+  single_file: true
+};
+
+message RequestMessage {
+  oneof data {
+    AllRaidBossesRequest allRaidBossesMessage = 1;
+    RaidBossesRequest raidBossesMessage = 2;
+    FollowRequest followMessage = 3;
+    UnfollowRequest unfollowMessage = 4;
+  };
+};
+
+message AllRaidBossesRequest {
+  option (scalapb.message).extends = "Request";
+};
+
+message RaidBossesRequest {
+  option (scalapb.message).extends = "Request";
+
+  repeated string bossNames = 1;
+};
+
+message FollowRequest {
+  option (scalapb.message).extends = "Request";
+
+  repeated string bossNames = 1;
+};
+
+message UnfollowRequest {
+  option (scalapb.message).extends = "Request";
+
+  repeated string bossNames = 1;
+};
+

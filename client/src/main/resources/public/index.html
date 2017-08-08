@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png?v=20161015">
+<link rel="icon" type="image/png" href="/icons/favicon-32x32.png?v=20161015" sizes="32x32">
+<link rel="icon" type="image/png" href="/icons/favicon-16x16.png?v=20161015" sizes="16x16">
+<link rel="manifest" href="/icons/manifest.json?v=20161015">
+<link rel="mask-icon" href="/icons/safari-pinned-tab.svg?v=20161015" color="#5bbad5">
+<link rel="shortcut icon" href="/icons/favicon.ico?v=20161015">
+<meta name="msapplication-config" content="/icons/browserconfig.xml?v=20161015">
+<meta name="theme-color" content="#ffffff">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Granblue Raid Finder</title>
+</head>
+<body style="visibility:hidden;">
+
+<script>
+var d = document;
+
+function loadScript(url, cb) {
+  var s = d.createElement('script');
+  s.async = 1;
+  s.onload = cb;
+  s.src = url;
+  d.body.appendChild(s);
+};
+
+function loadCSS(url) {
+  var l = d.createElement('link');
+  l.onload = function() { l.media = 'all'; };
+  l.rel = 'stylesheet';
+  l.media = 'none';
+  l.href = url;
+  d.body.appendChild(l);
+};
+
+(function() {
+
+var l = window.location;
+var queryParams = document.location.search.substring(1).split('&')
+  .map(function(n) { return n = n.split("="), this[n[0]] = n[1], this; }.bind({}))[0];
+
+var isLocalFile = l.protocol == 'file:';
+var isLocalhost = l.hostname == 'localhost';
+var isLocal = isLocalFile || isLocalhost;
+
+function getBaseUrl() {
+  if (queryParams.baseUrl) return queryParams.baseUrl;
+
+  var protocol = (l.protocol === 'https:') ? 'wss://' : 'ws://';
+  var remoteUrl = 'ws://gbf-raidfinder.aikats.us';
+  return isLocalFile ? remoteUrl : (protocol + l.host);
+};
+
+[
+  'https://fonts.googleapis.com/icon?family=Material+Icons',
+  'https://code.getmdl.io/1.2.0/material.indigo-pink.min.css',
+  'css/dark.css',
+  'css/base.css'
+].forEach(loadCSS);
+
+loadScript('./js/gbf-raidfinder-client-jsdeps.js', function() {
+  var fileVer = isLocal ? 'fastopt' : 'opt';
+
+  loadScript('./js/gbf-raidfinder-client-' + fileVer + '.js', function() {
+    var url = getBaseUrl() + '/ws/raids?keepAlive=true';
+    GbfRaidFinder().init(url);
+  });
+});
+
+if (!isLocal) {
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-83867714-1', 'auto');
+  ga('send', 'pageview');
+}
+
+}());
+</script>
+
+<script async defer src="https://code.getmdl.io/1.2.0/material.min.js"></script>
+
+</body>
+</html>
+
