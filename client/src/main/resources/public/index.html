@@ -83,8 +83,17 @@ if (!isLocal) {
 }());
 </script>
 
+<script>
+	setTimeout(function()
+	{
+		var tag = document.createElement("script");
+		tag.src = "viramateapi/viramate_api_hook.js"
+		document.getElementsByTagName("head")[0].appendChild(tag);
+	},
+	2000);
+</script>
+
 <script async defer src="https://code.getmdl.io/1.2.0/material.min.js"></script>
-<script src="viramateapi/viramate_api_hook.js"></script>
 
 </body>
 </html>
